@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./docker/db/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+  api:
+    build:
+      context: ./api/
+      dockerfile: Dockerfile
+    command: sh -c "rm -f /api/tmp/pids/server.pid && bundle exec rails s -p 3001 -b '0.0.0.0'"
+    volumes:
+      - ./api:/api
+      - ./api/vendor/bundle:/api/vendor/bundle
+    ports:
+      - '3001:3001'
+    depends_on:
+      - db
+  front:
+    build:
+      context: .
+      dockerfile: ./front/Dockerfile
+    volumes:
+      - ./front:/usr/src/app
+    command: yarn start
+    ports:
+      - '3000:3000'
+volumes:
+  postgresql_db:
+    driver: local
