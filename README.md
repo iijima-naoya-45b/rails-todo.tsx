@@ -1,4 +1,4 @@
-### React&RailsのTodoアプリ<br>
+### React&Railsのアプリ<br>
 ---
 
 `docker compose run api bash`<br>
