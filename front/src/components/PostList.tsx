@@ -1,4 +1,5 @@
 import React from 'react';
+import PostItem from './PostItem';
 
 // postの型定義
 type Post = {
@@ -7,20 +8,17 @@ type Post = {
   description: string;
 };
 
-interface PostListProps {
+type PostListProps = {
   posts: Post[];
-}
+};
 
 const PostList: React.FC<PostListProps> = ({ posts }) => {
   return (
-    <ul className="post-list">
+    <div>
       {posts.map((post) => (
-        <li key={post.id}>
-          <h3>{post.title}</h3>
-          <p>{post.description}</p> {/* <h3> ではなく <p> を使用 */}
-        </li>
+        <PostItem key={post.id} post={post} />
       ))}
-    </ul>
+    </div>
   );
 };
 
