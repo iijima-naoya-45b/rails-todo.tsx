@@ -33,3 +33,14 @@ export const updatePost =async (postId: number, postData:any) => {
     throw error;
   }
 };
+
+//delete関数
+export const deletePost =async (postId:number) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/posts/${postId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error while deleting Posts;', error)
+    throw error;
+  }
+}

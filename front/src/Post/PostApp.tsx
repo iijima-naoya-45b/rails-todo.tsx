@@ -28,11 +28,20 @@ const PostApp = () => {
     fetchPosts();
   }, []);
 
+  //delete削除後に、表示する関数
+  const handlePostDelete =async (postId:number) => {
+    try {
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <h1>Post App</h1>
       <PostForm />
-      <PostList posts={posts}/>
+      <PostList posts={posts} onPostDelete={handlePostDelete}/>
     </div>
   );
 };

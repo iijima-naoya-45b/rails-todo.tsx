@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PostEditForm from './PostEditForm';
+import { deletePost } from '../Post/api';
 
 type Post = {
     id: number;
@@ -9,9 +10,10 @@ type Post = {
 
 type PostItemProps = {
     post: Post;
+    onDelete: (postId: number) => void; //受け取る関数を定義
 };
 
-const PostItem: React.FC<PostItemProps> = ({ post }) => {
+const PostItem: React.FC<PostItemProps> = ({ post, onDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const handleEditClick = () => {
@@ -22,6 +24,15 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
         setIsEditing(false);
     };
 
+    const handleDeleteClick =async () => {
+        try {
+            await deletePost(post.id);
+            onDelete(post.id);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div>
             {!isEditing ?(
@@ -29,6 +40,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                     <h3>{post.title}</h3>
                     <p>{post.description}</p>
                     <button onClick={handleEditClick}>Edit</button>
+                    <button onClick={handleDeleteClick}>Delete</button>
                 </div>
             ) : (
                 <PostEditForm post={post} onEdit={handleEditCancel} />
